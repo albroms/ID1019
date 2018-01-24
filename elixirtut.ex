@@ -21,6 +21,7 @@ defmodule M do
 
   end
 
+#Task 2, A first program
   def circArea(r) do
     IO.puts r*r*:math.pi
   end
@@ -33,10 +34,23 @@ defmodule M do
     end
   end
 
+#Task 3, Recursion
+  def exp(_, 0) do 1 end
   def exp(x, n) do
-    case n do
-      
+    product(exp(x, n-1), x)
+  end
+
+  def quickExp(x, 1) do x end
+  def quickExp(x, n) do
+    if rem(n, 2) == 0 do
+      quickExp(x*x, div(n, 2))
+    else
+      x*quickExp(x, (n-1))
     end
   end
 
+#Task 4, list operations
+  def nth(n, l) do
+    
+  end
 end
