@@ -27,30 +27,81 @@ defmodule M do
   end
 
   def product(m, n) do
-    if m == 0 do
-      0
-    else
-      n + product(m-1, n)
+    cond do
+      m == 0 -> 0
+      true -> n + product(m-1, n)
     end
   end
 
 #Task 3, Recursion
-  def exp(_, 0) do 1 end
+
+  #Please don't use this, it's EXTREMELY slow!
   def exp(x, n) do
-    product(exp(x, n-1), x)
+    case n do
+      0 -> 1
+      1 -> x
+      _ -> product(exp(x, n-1), x)
+    end
   end
 
-  def quickExp(x, 1) do x end
+  #Use this one to your heart's content!
   def quickExp(x, n) do
-    if rem(n, 2) == 0 do
-      quickExp(x*x, div(n, 2))
-    else
-      x*quickExp(x, (n-1))
+    cond do
+      n == 1 -> x
+      rem(n, 2) == 0 -> quickExp(x*x, div(n, 2))
+      true -> x*quickExp(x, (n-1))
     end
   end
 
 #Task 4, list operations
-  def nth(n, l) do
-    
+
+#return the nth element of a list
+  #def nth(0, [head | tail]) do head end
+  #def nth(n, [_head | tail]) do nth(n-1, tail) end
+
+  #nth element with 0 indexing.
+  def nth(n, [head | tail]) do
+    cond do
+      n == 0 -> head
+      true -> nth(n-1, tail)
+    end
   end
+
+#return the length of the list
+  def len([]) do 0 end
+  def len([_head | tail]) do 1 + len(tail) end
+
+#return the sum of the lists elements
+  def sum([]) do 0 end
+  def sum([head | tail]) do head + sum(tail) end
+
+#return a list based off the list provided where all elements are duplicated
+  def duplicate([]) do [] end
+  def duplicate([head | tail]) do
+    [head, head | duplicate(tail)]
+  end
+
+#add the given value to the given list and insert it into the list if it does not already exist
+  def add(x, []) do [x] end #for an empty list
+  def add(x, [x | tail]) do [x | tail] end #if x is already in the list
+  def add(x, [head | tail]) do [head | add(x, tail)] end #for other cases
+
+#remove the specified value from the given list
+  def remove(_, []) do [] end
+  def remove(x, [x | tail]) do remove(x, tail) end
+  def remove(x, [head | tail]) do
+    [head | remove(x, tail)]
+  end
+
+#return a list of all the unique elements in the provided list
+  def unique([]) do [] end
+  def unique([head | tail]) do
+    [head|unique(remove(head, tail))]
+  end
+#return a list containing lists of equal elements
+  def pack([]) do [] end
+  def pack([head | tail]) do
+
+  end
+
 end
