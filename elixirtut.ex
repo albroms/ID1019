@@ -33,7 +33,7 @@ defmodule M do
     end
   end
 
-#Task 3, Recursion
+#Task 3, Recursion#
 
   #Please don't use this, it's EXTREMELY slow!
   def exp(x, n) do
@@ -53,7 +53,8 @@ defmodule M do
     end
   end
 
-#Task 4, list operations
+
+#Task 4, list operations#
 
 #return the nth element of a list
   #def nth(0, [head | tail]) do head end
@@ -69,9 +70,11 @@ defmodule M do
 
 #return the length of the list
   def len([]) do 0 end
-  def len([_head | tail]) do 1 + len(tail) end
+  def len([ _ | tail]) do 1 + len(tail) end
 
-#return the sum of the lists elements
+#return the sum of the lists elements.
+#basically works like a len function where we care about
+#the value of the head.
   def sum([]) do 0 end
   def sum([head | tail]) do head + sum(tail) end
 
@@ -84,7 +87,9 @@ defmodule M do
 #add the given value to the given list and insert it into the list if it does not already exist
   def add(x, []) do [x] end #for an empty list
   def add(x, [x | tail]) do [x | tail] end #if x is already in the list
-  def add(x, [head | tail]) do [head | add(x, tail)] end #for other cases
+  def add(x, [head | tail]) do
+    [head | add(x, tail)] #all other cases
+  end
 
 #remove the specified value from the given list
   def remove(_, []) do [] end
@@ -95,13 +100,34 @@ defmodule M do
 
 #return a list of all the unique elements in the provided list
   def unique([]) do [] end
-  def unique([head | tail]) do
-    [head|unique(remove(head, tail))]
+  def unique([head|tail]) do
+    l = remove(head, tail)
+    [head|unique(l)]
   end
+
 #return a list containing lists of equal elements
   def pack([]) do [] end
-  def pack([head | tail]) do
+  def pack([head|tail]) do
 
   end
 
+#reverse a list in quadratic time
+#the recursion call is done in linear time, but so is the concatination.
+  def slow_reverse([]) do [] end
+  def slow_reverse([head | tail]) do
+    #reverse(tail) ++ [head] #using the included concatinator
+    union(reverse(tail), [head]) #using our own concatinator
+  end
+#a better reverse function that runs in linear time
+  def reverse(l) do reverse(l, []) end
+  def reverse([], rev) do rev end
+  def reverse([head | tail], rev) do
+    reverse(tail, [head|rev])
+  end
+
+#a list concatenation function that illustrates how the ++ operator works
+  def union([], y) do y end
+  def union([head | tail], y) do
+    [head|union(tail, y)]
+  end
 end
