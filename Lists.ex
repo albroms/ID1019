@@ -1,7 +1,7 @@
 defmodule Listops do
 #Task 4, list operations#
 
-#return the nth element of a list
+#return the nth element of a list using multiple clauses
   #def nth(0, [head | tail]) do head end
   #def nth(n, [_head | tail]) do nth(n-1, tail) end
 
@@ -52,10 +52,10 @@ defmodule Listops do
 
 #return a list containing lists of equal elements
   def pack([]) do [] end
-  def pack([head|tail]) do
-
+  def pack([x|tail]) do
+    {all, rest} = match(x, tail, [x], [])
+    [all | pack(rest)]
   end
-  def pack()
 
 #reverse a list in quadratic time
 #the recursion call is done in linear time, but so is the concatination.
