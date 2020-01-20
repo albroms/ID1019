@@ -1,3 +1,0 @@
-defmodule Derivatives do
-  
-end
