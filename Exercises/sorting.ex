@@ -49,20 +49,20 @@ defmodule Sorting do
 
 ## QUICKSORT
   def qsort([]) do [] end
-  def qsort([p | l]) do 
-  {..., ...} = qsplit(p, l, [], [])
-  small = ...
-  large = ...
+  def qsort([p | l]) do
+  {list1, list2} = qsplit(p, l, [], [])
+  small = qsort(list1)
+  large = qsort(list2)
   Lists.append(small, [p | large])
   end
 
 
-  def qsplit(_, [], small, large) do ... end
+  def qsplit(_, [], small, large) do {small, large} end
   def qsplit(p, [h | t], small, large) do
-    if ...  do
-      ...
+    if h < p  do
+      qsplit(p, t, [h | small], large)
     else
-      ...
+      qsplit(p, t, small, [h | large])
     end
   end
 end
