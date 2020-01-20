@@ -48,6 +48,7 @@ defmodule Sorting do
   end
 
 ## QUICKSORT
+
   def qsort([]) do [] end
   def qsort([p | l]) do
   {list1, list2} = qsplit(p, l, [], [])
