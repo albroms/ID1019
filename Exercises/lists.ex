@@ -62,7 +62,7 @@ defmodule Lists do
 
   #benchmarking
   def dummy() do end #null operation
-  def bench() do
+  def bench_reverse() do
     ls = [16, 32, 64, 128, 256, 512, 1024]
     n = 100
     # bench is a closure: a function with an environment.
@@ -80,20 +80,15 @@ defmodule Lists do
   end
 
   # Time the execution time of the a function.
-  def time(n, fun) do
-    start = System.monotonic_time(:millisecond)
-    loop(n, fun)
-    stop = System.monotonic_time(:millisecond)
-    stop - start
+  def time(n, call) do
+    {t, _} = :timer.tc(fn -> loop(n, call) end)
+    trunc(t/n)
   end
 
   # Apply the function n times.
-  def loop(n, fun) do
-    if n == 0 do
-      :ok
-    else
-      fun.()
-      loop(n - 1, fun)
-    end
+  def loop(0, _) do :ok end
+  def loop(n, call) do
+    call.()
+    loop(n-1, call)
   end
 end

@@ -51,4 +51,37 @@ defmodule Recursion do
     end
   end
 
+  #benchmarking
+  def dum() do end
+  def bench_fib() do
+    ls = [8,10,12,14,16,18,20,22,24,26,28,30,32]
+    n = 10
+
+    bench = fn(l) ->
+      t = time(n, fn() -> fib(l) end)
+      :io.format("n: ~4w fib(n) calculated in: ~8w us~n", [l, t])
+
+    end
+    dummyBench = fn(l) ->
+      t = time(n, fn() -> dum() end)
+      :io.format("n: ~4w dum(n) calculated in: ~8w us~n", [l, t])
+    end
+
+    :io.format("Benchmarking for fib():\n")
+    Enum.each(ls, bench)
+    :io.format("\nBenchmarking for dum():\n")
+    Enum.each(ls, dummyBench)
+  end
+
+  def time(n, call) do
+    {t, _} = :timer.tc(fn -> loop(n, call) end)
+    trunc(t/n)
+  end
+
+  def loop(0, _) do :ok end
+  def loop(n, call) do
+    call.()
+    loop(n-1, call)
+  end
+
 end
