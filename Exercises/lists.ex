@@ -61,15 +61,17 @@ defmodule Lists do
   def reverse([h|t], r) do reverse(t, [h | r]) end
 
   #benchmarking
+  def dummy() do end #null operation
   def bench() do
     ls = [16, 32, 64, 128, 256, 512, 1024]
     n = 100
     # bench is a closure: a function with an environment.
     bench = fn(l) ->
       seq = Enum.to_list(1..l)
+      td = time(n, fn -> dummy() end)
       tn = time(n, fn -> nreverse(seq) end)
       tr = time(n, fn -> reverse(seq) end)
-      :io.format("length: ~10w  nrev: ~8w us    rev: ~8w us~n", [l, tn, tr])
+      :io.format("length: ~10w dummy: ~8w us   nrev: ~8w us    rev: ~8w us~n", [l, td, tn, tr])
     end
 
     # We use the library function Enum.each that will call
@@ -79,9 +81,9 @@ defmodule Lists do
 
   # Time the execution time of the a function.
   def time(n, fun) do
-    start = System.monotonic_time(:milliseconds)
+    start = System.monotonic_time(:millisecond)
     loop(n, fun)
-    stop = System.monotonic_time(:milliseconds)
+    stop = System.monotonic_time(:millisecond)
     stop - start
   end
 
