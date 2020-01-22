@@ -5,7 +5,19 @@ defmodule Calculate do
   def eval({:add, a, b}) do eval(a) + eval(b) end
   def eval({:sub, a, b}) do eval(a) - eval(b) end
   def eval({:mul, a, b}) do eval(a) * eval(b) end
-  ## TODO: implement variables
-  def lookup(var, [{:bind, var, value} | _]) do value end
+  #eval for variables
+  def eval({:var, name}, bindings) do
+    lookup(name, bindings)
+  end
+  def eval({type, {:var, a}, {:var, b}}, bindings) do
+    eval({type,
+          {:int, lookup(a, bindings)},
+          {:int, lookup(b, bindings)}
+         })
+  end
+  #lookup for value associated with variable
+  def lookup(var, [{:bind, var, value} | _]) do
+    value
+  end
   def lookup(var, [_ | rest]) do lookup(var, rest) end
 end
