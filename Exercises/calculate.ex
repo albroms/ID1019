@@ -1,5 +1,4 @@
 defmodule Calculate do
-  #var = {:var, name}
 
   def eval({:int, n}) do n end
   def eval({:add, a, b}) do eval(a) + eval(b) end
@@ -16,8 +15,9 @@ defmodule Calculate do
          })
   end
   #lookup for value associated with variable
-  def lookup(var, [{:bind, var, value} | _]) do
+  def lookup(_var, []) do :not_found end
+  def lookup(var, [{:bind, var, value} | _rest]) do
     value
   end
-  def lookup(var, [_ | rest]) do lookup(var, rest) end
+  def lookup(var, [_binding | rest]) do lookup(var, rest) end
 end
