@@ -49,11 +49,14 @@ defmodule Huffman do
 # at a time based on frequency.
   def huffman(freq) do
     sorted = Enum.sort(freq, fn({_, x}, {_, y}) -> x < y end)
+    #building a huffman tree is made easier once the frequencies are sorted
     huffman_tree(sorted)
   end
 
   def huffman_tree([{tree, _}]) do tree end
-
+  def huffman_tree([{cha, fa},{chb, fb} | rest]) do
+    huffman_tree(insert({{a, b}, fa + fb}, rest))
+  end
 
 # Build the encoding tree
   def encode_table(tree) do
