@@ -26,6 +26,8 @@ defmodule Huffman do
     # To implement...
   end
 
+  #How should the table be structured? [{:key, key, :val, value}, {...}, ...] a list
+  #Or                                  {}
   def encode_table(tree) do
     # To implement...
   end
