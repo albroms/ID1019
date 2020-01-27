@@ -12,6 +12,7 @@ defmodule Huffman do
     'this is something that we should encode'
   end
 
+# Run all the steps of Huffman encoding and decoding.
   def test do
     sample = sample()
     tree = tree(sample)
@@ -22,12 +23,39 @@ defmodule Huffman do
     decode(seq, decode)
   end
 
+# Construct the Huffman tree from a text sample
   def tree(sample) do
-    # To implement...
+    freq = freq(sample)
+    huffman(freq)
   end
 
-  #How should the table be structured? [{:key, key, :val, value}, {...}, ...] a list
-  #Or                                  {}
+# Compute the frequencies of all the characters in the
+# sample text and return a list of tuples {char, freq}.
+  def freq(sample) do freq(sample, []) end
+  def freq([], freq) do freq end
+  def freq([char | rest], freq) do
+    freq(rest, update(char, freq))
+  end
+
+  def update(char, []) do [{char, 1}] end
+  def update(char, [{char, n} | freq]) do
+    [{char, n + 1} | freq]
+  end
+  def update(char, [otherChar | freq]) do
+    [otherChar | update(char, freq)]
+  end
+
+# Build the actual Huffman tree inserting one character
+# at a time based on frequency.
+  def huffman(freq) do
+    sorted = Enum.sort(freq, fn({_, x}, {_, y}) -> x < y end)
+    huffman_tree(sorted)
+  end
+
+  def huffman_tree([{tree, _}]) do tree end
+
+
+# Build the encoding tree
   def encode_table(tree) do
     # To implement...
   end
