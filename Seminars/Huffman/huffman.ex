@@ -69,7 +69,9 @@ defmodule Huffman do
   end
 
   def encode_table(tree) do
-    ## TODO: create an encoding table
+    ## TODO: create an encoding table, 0 = go left, 1 = go right
+
+
   end
   def decode_table(tree) do
     ## TODO: create a decoding table
