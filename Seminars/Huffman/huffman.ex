@@ -14,13 +14,14 @@ defmodule Huffman do
 
 # Run all the steps of Huffman encoding and decoding.
   def test do
-    sample = sample()
-    tree = tree(sample)
-    encode = encode_table(tree)
-    decode = decode_table(tree)
-    text = text()
-    seq = encode(text, encode)
-    decode(seq, decode)
+    text() |> tree()
+    #sample = sample()
+    #tree = tree(sample)
+    #encode = encode_table(tree)
+    #decode = decode_table(tree)
+    #text = text()
+    #seq = encode(text, encode)
+    #decode(seq, decode)
   end
 
 # Construct the Huffman tree from a text sample
@@ -53,25 +54,31 @@ defmodule Huffman do
     huffman_tree(sorted)
   end
 
-  def huffman_tree([{tree, _}]) do tree end
-  def huffman_tree([{cha, fa},{chb, fb} | rest]) do
+  def huffman_tree([{tree, freq}]) do tree end
+  def huffman_tree([{a, fa},{b, fb} | rest]) do
     huffman_tree(insert({{a, b}, fa + fb}, rest))
   end
 
-# Build the encoding tree
+  # insert tuples in the right order
+  def insert({a, fa}, []) do [{a, fa}] end
+  def insert({a, fa}, [{b, fb} | rest]) when fa < fb do
+    [{a, fa}, {b, fb} | rest]
+  end
+  def insert({a, fa}, [{b, fb} | rest]) do
+    [{b, fb} | insert({a, fa}, rest)]
+  end
+
   def encode_table(tree) do
-    # To implement...
+    ## TODO: create an encoding table
   end
-
   def decode_table(tree) do
-    # To implement...
+    ## TODO: create a decoding table
   end
-
   def encode(text, table) do
-    # To implement...
+    ## TODO: create function that converts from text to huffman sequence
+  end
+  def decode(seq, tree) do
+    ## TODO: create function that converts a huffman sequene to ascii characters.
   end
 
-  def decode(seq, tree) do
-    # To implement...
-  end
 end
