@@ -14,13 +14,13 @@ defmodule Huffman do
 
 # Run all the steps of Huffman encoding and decoding.
   def test do
-    text() |> tree()
-    #sample = sample()
-    #tree = tree(sample)
-    #encode = encode_table(tree)
+    sample = sample()
+    tree = tree(sample)
+    IO.puts('\nEncoding table based on sample:\n')
+    encode = encode_table(tree)
     #decode = decode_table(tree)
-    #text = text()
-    #seq = encode(text, encode)
+    text = text()
+    seq = encode(text, encode)
     #decode(seq, decode)
   end
 
@@ -68,16 +68,31 @@ defmodule Huffman do
     [{b, fb} | insert({a, fa}, rest)]
   end
 
+  ## CREATE ENCODING TABLE
   def encode_table(tree) do
     ## TODO: create an encoding table, 0 = go left, 1 = go right
-
-
+    codes(tree, [])
   end
+
+  def codes({a, b}, sofar) do
+    as = codes(a, [0 | sofar])
+    bs = codes(b, [1 | sofar])
+    as ++ bs
+  end
+  def codes(char, sofar) do
+    [{char, Enum.reverse(sofar)}]
+  end
+
+  ## ENCODING
+  def encode([], _) do [] end
+  def encode([char | rest], table) do
+    {_, code} = List.keyfind(table, char, 0)
+    IO.puts(inspect(List.keyfind(table, char, 0)))
+    code ++ encode(rest, table)
+  end
+  ## DECODING
   def decode_table(tree) do
     ## TODO: create a decoding table
-  end
-  def encode(text, table) do
-    ## TODO: create function that converts from text to huffman sequence
   end
   def decode(seq, tree) do
     ## TODO: create function that converts a huffman sequene to ascii characters.
