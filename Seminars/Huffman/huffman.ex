@@ -14,14 +14,15 @@ defmodule Huffman do
 
 # Run all the steps of Huffman encoding and decoding.
   def test do
-    sample = sample()
-    tree = tree(sample)
-    IO.puts('\nEncoding table based on sample:\n')
-    encode = encode_table(tree)
+    sample = sample() # works
+    tree = tree(sample) # works
+    encode = encode_table(tree) # works
     #decode = decode_table(tree)
     text = text()
+    # seq is a list of {char, code} followed by the bit sequence
     seq = encode(text, encode)
-    #decode(seq, decode)
+    #decode gives us the table and the decoded message
+    decode(seq, encode)
   end
 
 # Construct the Huffman tree from a text sample
@@ -70,7 +71,7 @@ defmodule Huffman do
 
   ## CREATE ENCODING TABLE
   def encode_table(tree) do
-    ## TODO: create an encoding table, 0 = go left, 1 = go right
+    # create an encoding table, 0 = go left, 1 = go right
     codes(tree, [])
   end
 
@@ -90,12 +91,22 @@ defmodule Huffman do
     IO.puts(inspect(List.keyfind(table, char, 0)))
     code ++ encode(rest, table)
   end
+
   ## DECODING
-  def decode_table(tree) do
-    ## TODO: create a decoding table
+  def decode([], _) do [] end
+  def decode(seq, table) do
+    {char, rest} = decode_char(seq, 1, table) # no match for 98
+    [char | decode(rest, table)]
   end
-  def decode(seq, tree) do
-    ## TODO: create function that converts a huffman sequene to ascii characters.
+  def decode_char(seq, n, table) do
+    {code, rest} = Enum.split(seq, n)
+
+    case List.keyfind(table, code, 1) do
+      {char, code} ->
+        {char, rest};
+      nil ->
+        decode_char(seq, n+1, table)
+    end
   end
 
 end
