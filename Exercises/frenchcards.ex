@@ -3,8 +3,8 @@ defmodule Frenchcards do
   @spec sort([card]) :: [card]
   @spec split([card]) :: {[card], [card]}
 
-  # NOTE: neither the compiler or the interpreter cares what @type is.
-  # Type tags are mainly for the programmer's convenience.
+  # NOTE: neither the compiler or the interpreter cares much about what @type is.
+  # Type tags are mainly for documentation and type error detection.
   @type suit :: :spades | :hearts | :diamonds | :clubs
   @type value :: 2..14
   @type card :: {:card, suit, value}

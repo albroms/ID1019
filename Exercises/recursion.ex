@@ -1,5 +1,8 @@
 defmodule Recursion do
 
+  # for fib(). Compiler does not care, it's mainly for documentation.
+  @spec fib(integer()) :: integer()
+
   def mul(0, _) do 0 end
   def mul(m, n) do
     cond do
