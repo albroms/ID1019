@@ -1,2 +1,2 @@
 # ID1019
-Elixir files and other junk related to the course.
+Elixir code from exercises, lectures, and seminars.
