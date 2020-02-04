@@ -1,6 +1,6 @@
 defmodule Btree do
-  # tree :: :nil | {:leaf, value} | {:node, value, left, right}
-  # kvtree :: :nil | {:node, key, value, left, right} <=> key is an integer
+  #@type tree :: :nil | {:leaf, value} | {:node, value, left, right}
+  #@type  kvtree :: :nil | {:node, key, value, left, right} <=> key is an integer
 
   ## member(elem, tree) checks if elem is in tree
   def member(_e, :nil) do :no end

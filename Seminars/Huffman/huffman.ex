@@ -8,21 +8,23 @@ defmodule Huffman do
     represent english but it is probably not that far off'
   end
 
-  def text()  do
-    'this is something that we should encode'
+  def text(n)  do
+    #'this is something that we should encode'
+    read('./constitution.txt', n) #text file of the US Constitution
   end
 
 # Run all the steps of Huffman encoding and decoding.
-  def test do
-    sample = sample() # works
+  def test(n) do
+    #sample = sample()
+    sample = text(10000)
     tree = tree(sample) # works
     encode = encode_table(tree) # works
     #decode = decode_table(tree)
-    text = text()
+    text = text(n)
     # seq is a list of {char, code} followed by the bit sequence
-    seq = encode(text, encode)
+    seq = encode(text, encode) # works
     #decode gives us the table and the decoded message
-    decode(seq, encode)
+    decode(seq, encode) # works
   end
 
 # Construct the Huffman tree from a text sample
@@ -92,7 +94,7 @@ defmodule Huffman do
     code ++ encode(rest, table)
   end
 
-  ## DECODING
+  ## DECODING, inefficient
   def decode([], _) do [] end
   def decode(seq, table) do
     {char, rest} = decode_char(seq, 1, table) # no match for 98
@@ -102,11 +104,28 @@ defmodule Huffman do
     {code, rest} = Enum.split(seq, n)
 
     case List.keyfind(table, code, 1) do
-      {char, code} ->
+      {char, _code} ->
         {char, rest};
       nil ->
         decode_char(seq, n+1, table)
     end
+  end
+
+  ## DECODING better
+
+  ## FILE READER
+  # read n chars of file
+  def read(file, n) do
+    {:ok, file} = File.open(file, [:read])
+    binary = IO.read(file, n)
+    File.close(file)
+
+    case :unicode.characters_to_list(binary, :utf8) do
+      {:incomplete, list, _} ->
+        list;
+      list ->
+        list
+      end
   end
 
 end
