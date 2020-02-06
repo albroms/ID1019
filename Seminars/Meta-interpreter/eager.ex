@@ -41,4 +41,16 @@ defmodule Eager do
     {:ok, id}
   end
 
+  def eval_match({:var, id}, str, env) do
+    case Env.lookup(id, env) do
+      nil ->
+        {:ok, Env.add(id, str, env)}
+      #^str indicates we want to use an existing variable
+      {_, ^str} ->
+        {:ok, {id, str}}
+      {_, _} ->
+        :fail
+    end
+  end
+
 end
