@@ -53,4 +53,19 @@ defmodule Eager do
     end
   end
 
+ # eval_match({:cons, {:var, :x}, {:var, :x}}, {:cons, {:atm, :a} {:atm, :b}}, [])} should return :fail
+  def eval_match({:cons, hp, tp}, {:cons, hstr, tstr}, env) do
+    case eval_match(hp, hstr, env) do
+      :fail ->
+        :fail
+      env ->
+        case eval_match(tp, tstr, Env.remove({hp, hstr})) do
+          :fail ->
+            :fail
+          env ->
+            {:ok, {:cons, {hp, hstr}, {tp, tstr}}}
+        end
+    end
+  end
+
 end
