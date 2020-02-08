@@ -1,6 +1,7 @@
 defmodule Tracer do
   @black {0, 0, 0}
   @white {1, 1, 1}
+  #@color {r, g, b}
 
   def tracer(camera, objects) do
     {w, h} = camera.size
@@ -16,6 +17,8 @@ defmodule Tracer do
     case intersect(ray, objects) do
       {:inf, _} ->
         @black
+      {_, object} ->
+        object.color
       {_, _} ->
         @white
     end
