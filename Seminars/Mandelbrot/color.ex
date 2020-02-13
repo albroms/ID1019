@@ -5,8 +5,8 @@ defmodule Color do
     #red(depth, max)
     #blue(depth, max)
     #green_cool(depth, max)
-    green_warm(depth, max)
-    #inverted(depth, max)
+    #green_warm(depth, max)
+    inverted(depth, max)
   end
 
   def red(d, max) do
