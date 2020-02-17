@@ -21,8 +21,8 @@ defmodule Tic do
 
   defp last do
     receive do
-      {_, x} ->
-        IO.puts("3 end: #{x}")
+      {t, x} ->
+        IO.puts("3 end: #{t} #{x}")
     end
   end
 
