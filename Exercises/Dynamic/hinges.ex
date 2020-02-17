@@ -4,6 +4,7 @@ defmodule Hinges do
 
   #@spec search(m, t, hinge, latch) :: {h, l, p}
 
+  # SEARCH WITHOUT MEMORY
   def search(m, t, {hm, ht, hp} = h, {lm, lt, lp} = l) when ((m >= hm) and (t >= ht) and (m >= lm) and (t >= lt)) do
     # We have material and time to make either a hinge or a latch
     {hi, li, pi} = search((m-hm), (t-ht), h, l)
@@ -33,6 +34,7 @@ defmodule Hinges do
     {0, 0, 0}
   end
 
+  # SEARCH WITH MEMORY
   def memory(material, time, hinge, latch) do
     mem = Memory.new()
     {solution, _} = search(material, time, hinge, latch, mem)
@@ -48,17 +50,23 @@ defmodule Hinges do
       found ->
         {found, mem}
     end
+  end
+  def check(_, _, _, _, mem) do {} end
 
-    def search(m, t, h, l, mem) when ((m >= hm) and (t >= ht) and (m >= lm) and (t >= lt)) do
-      {{hi, li, pi}, mem} = check(, mem)
-      {{hj, lj, pj}, mem} = check(..., mem)
-      if ... do
-        {..., mem}
-      else
-        {..., mem}
-      end
+  def search(m, t, {hm, ht, hp} = h, {lm, lt, lp} = l, mem) when ((m >= hm) and (t >= ht) and (m >= lm) and (t >= lt)) do
+    {{hi, li, pi}, mem} = check((m-hm), (t-ht), h, l, mem)
+    {{hj, lj, pj}, mem} = check((m-lm), (t-lt), h, l, mem)
+    if ((pi+hp) > (pj+lp)) do
+      # make a hinge
+      {(hi+1), li, (pi+hp), mem}
+    else
+      # make a latch
+      {hi, (li+1), (pi+lp), mem}
     end
-
+  end
+  def search(_m, _t, _h, _l, mem) do
+    # don't make anything
+    {0, 0, 0, mem}
   end
 
 end

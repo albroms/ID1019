@@ -3,7 +3,7 @@ defmodule Tic do
   def first do
     receive do
       {:tic, x} ->
-        IO.puts("1 tic: #{x}")
+        IO.puts("tic: #{x}")
         second()
     end
   end
@@ -11,10 +11,10 @@ defmodule Tic do
   defp second do
     receive do
       {:tac, x} ->
-        IO.puts("2 tac: #{x}")
+        IO.puts("tac: #{x}")
         last()
       {:toe, x} ->
-        IO.puts("2 toe: #{x}")
+        IO.puts("toe: #{x}")
         last()
     end
   end
@@ -22,7 +22,7 @@ defmodule Tic do
   defp last do
     receive do
       {t, x} ->
-        IO.puts("3 end: #{t} #{x}")
+        IO.puts("#{t}: #{x}")
     end
   end
 
