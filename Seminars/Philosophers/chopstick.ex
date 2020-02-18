@@ -1,31 +1,43 @@
 defmodule Chopstick do
 
   def start() do
-    chopstick_id = spawn_link(fn -> init() end)
+    chopstick = spawn_link(fn -> init() end)
     {:chopstick, chopstick}
   end
 
-  def available() do
+  defp init(), do: available()
+
+  defp available() do
     receive do
       #send chopstick to philosopher
-      ... -> ... #send to philosopher: chopstick
+      {:request, from} ->
+        send(from, :granted)
+        gone()
       :quit -> :ok
     end
   end
 
-  def gone() do
+  defp gone() do
     receive do
-      #tell philosopher to wait
-      ... -> ...
+      :return -> available()
       :quit -> :ok
     end
   end
 
+  #a synchronous request handling
   def request({:chopstick, pid}) do
     send(pid, {:request, self()})
     receive do
-      ... -> :ok
+      :granted -> :ok
     end
+  end
+
+  def return({:chopstick, pid}) do
+    send(pid, :return)
+  end
+
+  def quit({:chopstick, pid}) do
+    send(pid, :quit)
   end
 
 end

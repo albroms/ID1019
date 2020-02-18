@@ -30,11 +30,11 @@ defmodule Cell do
   end
 
   def do_it(thing, lock) do
-    case Cell.get(lock) do
+    case Cell.swap(lock, :taken) do
       :taken ->
         do_it(thing, lock)
       :open ->
-        Cell.set(lock, :taken)
+        #Cell.set(lock, :taken)
         do_your_critical_thing(thing)
         Cell.set(lock, :open)
     end
